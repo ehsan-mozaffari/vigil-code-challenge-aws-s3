@@ -6,10 +6,19 @@ import scala.util.Try
 
 object Pipeline {
 
+  /**
+   * decode the file based on UTF8
+   */
   val decode = ZPipeline.utf8Decode
 
+  /**
+   * Splits the decoded string and transform it into array of lines 
+   */
   val splitLines = ZPipeline.splitLines >>> ZPipeline.map[String, Array[String]](_.split("\\."))
 
+  /**
+   * check if the csv or tsv files have headers and drop them
+   */
   val ignoreHeadersIfExists = (separator: String) =>
     ZPipeline.dropWhile[Array[String]](lines =>
       !lines.headOption.exists(
@@ -20,6 +29,11 @@ object Pipeline {
       )
     )
 
+  /**
+   * transform the raw array of lines to a list with a key value with the certain business
+   * It supports integer two columns files and leave 0 instead of blanks in the file.
+   * @param pass the separator of the file
+   */
   val toKeyValueList = (separator: String) =>
     ZPipeline.map[Array[String], List[(Int, Int)]](
       _.map(
@@ -36,6 +50,10 @@ object Pipeline {
       ).toList
     )
 
+  /***
+   * transforms from the list of key value to array of raw string with the help of separator
+   * @param separator of the file
+   */
   val toLines = (separator: String) =>
     ZPipeline.map[List[(Int, Int)], Array[String]](
       _.map { case (key, repetition) =>
@@ -43,9 +61,15 @@ object Pipeline {
       }.toArray
     )
 
+  /**
+   * Adds line separator based on the os type
+   */
   val addSystemLineSeparator =
     ZPipeline.map[Array[String], String](_.mkString(System.lineSeparator()))
 
+  /**
+   * Encode the file to prepare it for saving in the Sink
+   */
   val encode = ZPipeline.utf8Encode
 
 }

@@ -29,6 +29,14 @@ object SVParser {
       .run(collectEachOdd)
   }
 
+  /***
+   * It gets input and output paths and save a stream result_timestamp.tsv in the output
+   * path. It fetches all files with csv and tsv type and process them parallel without blocking
+   * and save the file in a stream in the safe way
+   * @param inputPath
+   * @param outputPath
+   * @return
+   */
   def calculateOddNumbersAllInPath(
       inputPath:  String,
       outputPath: String
