@@ -33,7 +33,11 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 lazy val services = project
   .in(file("services"))
   .settings(scalaVersion := scala3Version)
+  .settings(libraryDependencies ++= lib.zio.core)
+  .aggregate(svParserService)
   .dependsOn(svParserService)
+
+addCommandAlias("run", "; services/run")
 
 lazy val util = project
   .in(file("util"))

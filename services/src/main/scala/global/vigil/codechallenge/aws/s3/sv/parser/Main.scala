@@ -4,7 +4,7 @@ import global.vigil.codechallenge.aws.s3.sv.parser.service.SVParser
 import zio.*
 
 
-object ZIOMain extends ZIOAppDefault {
+object Main extends ZIOAppDefault {
   override def run = {
 
     val defaultInputPath = "services/src/main/scala/resources/test"

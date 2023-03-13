@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 
 object SVParser {
 
-  def fileOddNumbersFilter(
+  private def fileOddNumbersFilter(
       fileName:  String,
       separator: String
   ): ZIO[Any, Throwable, Map[Int, List[Int]]] = {
