@@ -8,12 +8,13 @@ object Sink {
 
   /**
    * Saving the file to the disk in a stream way
-   * @param fileName
+   * @param toFileName target file name
    */
   val saveFile = (toFileName: String) => ZSink.fromFileName(toFileName)
 
   /**
    * Sinks all the lists of key values to a map of key values to find the duplicate ones
+   * transform the values into numbers and filtered if isOdd
    */
   val collectEachOdd: ZSink[Any, Nothing, List[(Int, Int)], Nothing, Map[Int, List[Int]]] =
     ZSink
